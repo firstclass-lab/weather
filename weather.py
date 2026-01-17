@@ -26,33 +26,41 @@ def send_line_push(message):
     requests.post(url, headers=headers, json=payload)
 
 def check_weather_and_notify():
-    will_rain = False
-    details = []
+    alert_needed = False
+    report_lines = []
     
-    print("--- 杉並区の「3時間予報」をチェック中 ---")
+    print("--- 杉並区の「現在」と「予報」を巡回中 ---")
+    
     for area_name, coords in LOCATIONS.items():
-        # 「forecast」APIを使用（5日間/3時間ごとの予報）
-        url = f"https://api.openweathermap.org/data/2.5/forecast?lat={coords['lat']}&lon={coords['lon']}&appid={OPENWEATHER_API_KEY}&lang=ja&units=metric"
-        res = requests.get(url).json()
-        
-        # 直近の予報データ（リストの最初が3時間以内の予報）を取得
-        next_forecast = res['list'][0]
-        weather_main = next_forecast['weather'][0]['main']
-        weather_desc = next_forecast['weather'][0]['description']
-        
-        print(f"・{area_name}（3時間以内）: {weather_desc}")
+        # 1. 現在の天気を取得
+        current_url = f"https://api.openweathermap.org/data/2.5/weather?lat={coords['lat']}&lon={coords['lon']}&appid={OPENWEATHER_API_KEY}&lang=ja&units=metric"
+        curr_res = requests.get(current_url).json()
+        curr_status = curr_res['weather'][0]['description']
+        curr_main = curr_res['weather'][0]['main']
 
-        # 雨、雪、霧雨、雷雨を検知
-        if weather_main in ["Rain", "Snow", "Drizzle", "Thunderstorm"]:
-            will_rain = True
-            details.append(f"・{area_name}（予報: {weather_desc}）")
+        # 2. 3時間予報を取得
+        forecast_url = f"https://api.openweathermap.org/data/2.5/forecast?lat={coords['lat']}&lon={coords['lon']}&appid={OPENWEATHER_API_KEY}&lang=ja&units=metric"
+        fore_res = requests.get(forecast_url).json()
+        next_f = fore_res['list'][0]
+        fore_status = next_f['weather'][0]['description']
+        fore_main = next_f['weather'][0]['main']
 
-    if will_rain:
-        msg = "【杉並区・洗濯物予告アラート】\n3時間以内に雨が降る予報が出ています。今のうちに取り込むか、干すのを控えましょう！\n\n" + "\n".join(details)
+        # ログ出力用
+        line = f"・{area_name}: 今[{curr_status}] → 3h後[{fore_status}]"
+        print(line)
+        report_lines.append(line)
+
+        # 「今」または「3時間後」のどちらかが雨（雪・雷雨含む）ならアラート対象
+        rain_conditions = ["Rain", "Snow", "Drizzle", "Thunderstorm"]
+        if curr_main in rain_conditions or fore_main in rain_conditions:
+            alert_needed = True
+
+    if alert_needed:
+        msg = "【杉並区・洗濯物警戒アラート】\n現在、または3時間以内に雨の予報があります！\n\n" + "\n".join(report_lines)
         send_line_push(msg)
-        print(">> 雨の予報を検知。LINEに通知を送りました。")
+        print(">> 雨を検知。LINEに通知しました。")
     else:
-        print(">> 3時間以内に雨の予報はありません。")
+        print(">> 現在および3時間以内に雨の心配はありません。")
 
 if __name__ == "__main__":
     check_weather_and_notify()
