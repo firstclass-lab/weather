@@ -1,0 +1,30 @@
+name: Suginami Weather Monitor
+
+on:
+  schedule:
+    # 10分おきに実行 (UTC時間)
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # 手動実行ボタンを作成
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run script
+        env:
+          # 先ほど登録したSecrets（金庫）から値を読み出す
+          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+        run: python weather.py
