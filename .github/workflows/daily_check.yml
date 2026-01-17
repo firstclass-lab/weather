@@ -2,8 +2,8 @@ name: Suginami Weather Monitor
 
 on:
   schedule:
-    # 10分おきに実行 (UTC時間)
-    - cron: '*/10 * * * *'
+    # 30分おきに実行 (UTC時間)
+    - cron: '*/30 * * * *'
   workflow_dispatch: # 手動実行ボタンを作成
 
 jobs:
