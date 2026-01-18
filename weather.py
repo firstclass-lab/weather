@@ -14,36 +14,87 @@ LOCATIONS = {
 }
 
 def create_web_page(report_lines):
-    """天況を反映したHTMLファイルを作成する"""
+    """天況を反映したHTMLファイルを作成する（モダンデザイン版）"""
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    adsense_code = ""
     
+    # 情報をカード形式のHTMLに変換
+    cards_html = ""
+    for line in report_lines:
+        area, status = line.split(": ", 1)
+        # 雨という言葉が入っていたら強調する仕組み（簡易版）
+        alert_style = "color: #e74c3c; font-weight: bold;" if "雨" in status else "color: #2c3e50;"
+        cards_html += f"""
+        <div class="card">
+            <div class="area-name">{area}</div>
+            <div class="status" style="{alert_style}">{status}</div>
+        </div>
+        """
+
     html_content = f"""
     <!DOCTYPE html>
     <html lang="ja">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>杉並区 洗濯物アラート詳細 | FirstClass Lab</title>
+        <title>杉並区 洗濯物アラート | FirstClass Lab</title>
         <style>
-            body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; text-align: center; padding: 20px; background-color: #f4f7f9; color: #333; }}
-            .card {{ background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 20px auto; max-width: 500px; }}
-            h1 {{ color: #2c3e50; font-size: 1.5rem; }}
-            .status {{ margin: 10px 0; padding: 10px; border-bottom: 1px solid #eee; }}
-            .footer {{ font-size: 0.8rem; color: #7f8c8d; margin-top: 30px; }}
+            :root {{ --main-blue: #007aff; --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); }}
+            body {{ 
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+                background: var(--bg-gradient); 
+                color: #333; 
+                margin: 0; 
+                display: flex; 
+                flex-direction: column; 
+                align-items: center; 
+                min-height: 100vh;
+                padding: 20px;
+            }}
+            .container {{ max-width: 500px; width: 100%; }}
+            header {{ text-align: center; margin-bottom: 30px; }}
+            h1 {{ font-size: 1.5rem; color: #1e293b; margin-bottom: 8px; }}
+            .last-update {{ font-size: 0.85rem; color: #64748b; }}
+            
+            .card {{ 
+                background: rgba(255, 255, 255, 0.9); 
+                backdrop-filter: blur(10px);
+                border-radius: 20px; 
+                padding: 20px; 
+                margin-bottom: 15px; 
+                box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+                border: 1px solid rgba(255,255,255,0.5);
+                transition: transform 0.2s;
+            }}
+            .card:hover {{ transform: translateY(-2px); }}
+            .area-name {{ font-size: 0.9rem; color: #64748b; margin-bottom: 5px; }}
+            .status {{ font-size: 1.1rem; font-weight: 600; }}
+
+            .ad-section {{ 
+                margin-top: 20px;
+                padding: 40px 20px;
+                border: 2px dashed #cbd5e1;
+                border-radius: 20px;
+                text-align: center;
+                color: #94a3b8;
+                background: rgba(255,255,255,0.3);
+            }}
+            footer {{ margin-top: auto; padding: 20px; font-size: 0.8rem; color: #94a3b8; }}
         </style>
     </head>
     <body>
-        <h1>杉並区 洗濯物監視状況</h1>
-        <p>最終更新: {now}</p>
-        <div class="card">
-            {"".join([f"<div class='status'>{line}</div>" for line in report_lines])}
+        <div class="container">
+            <header>
+                <h1>杉並区 洗濯物アラート</h1>
+                <div class="last-update">最終更新: {now}</div>
+            </header>
+
+            {cards_html}
+
+            <div class="ad-section">
+                <p>スポンサーリンク</p>
+                </div>
         </div>
-        <div class="card" style="border: 2px dashed #ccc; background: #fafafa;">
-            <p style="color: #999;">【広告スペース】</p>
-            {adsense_code}
-        </div>
-        <div class="footer">© 2026 FirstClass Lab</div>
+        <footer>© 2026 FirstClass Lab</footer>
     </body>
     </html>
     """
