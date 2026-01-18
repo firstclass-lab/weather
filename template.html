@@ -31,16 +31,40 @@
 <body>
     <div class="container">
         <header>
-            <h1>杉並区 洗濯物アラート</h1>
+            <h1>杉並区 洗濯物実況</h1>
             <div class="last-update">最終更新: {{ last_update }}</div>
         </header>
 
-        {{ cards }}
-
-        <div class="ad-section">
-            <p>スポンサーリンク</p>
+        <div class="card main-status" style="border-top: 8px solid {{ color }};">
+            <div class="score-label">洗濯物安全スコア</div>
+            <div class="score-value" style="color: {{ color }};">{{ score }}<span class="unit">点</span></div>
+            <div class="status-text">{{ status_msg }}</div>
+            <div class="advice-text">{{ advice }}</div>
+            <div class="detail-grid">
+                <div class="detail-item">湿度: {{ humidity }}%</div>
+                <div class="detail-item">雲量: {{ clouds }}%</div>
             </div>
+        </div>
+
+        <div class="card">
+            <h3 style="font-size: 0.9rem; color: #64748b; margin-top: 0;">3時間ごとの予報</h3>
+            <table class="forecast-table">
+                {{ table_content }}
+            </table>
+        </div>
     </div>
+
+    <style>
+        /* 追加・修正するスタイル */
+        .main-status { text-align: center; padding: 30px 20px; }
+        .score-label { font-size: 0.85rem; color: #64748b; font-weight: bold; }
+        .score-value { font-size: 4rem; font-weight: 800; line-height: 1; margin: 10px 0; }
+        .score-value .unit { font-size: 1.2rem; margin-left: 5px; }
+        .status-text { font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; }
+        .advice-text { font-size: 0.95rem; color: #475569; line-height: 1.5; }
+        .detail-grid { display: flex; justify-content: center; gap: 20px; margin-top: 20px; padding-top: 15px; border-top: 1px dashed #e2e8f0; font-size: 0.85rem; color: #64748b; }
+    </style>
+
     <footer>© 2026 FirstClass Lab</footer>
 </body>
 </html>
