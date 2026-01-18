@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>杉並区 洗濯物アラート | FirstClass Lab</title>
+    <title>杉並区 洗濯物実況 | FirstClass Lab</title>
     <style>
         :root { --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); }
         body { 
@@ -19,27 +19,35 @@
             background: rgba(255, 255, 255, 0.9); border-radius: 20px; padding: 20px; margin-bottom: 15px; 
             box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.5);
         }
-        .area-name { font-size: 0.9rem; color: #64748b; margin-bottom: 5px; }
-        .status { font-size: 1.1rem; font-weight: 600; }
-        .ad-section { 
-            margin-top: 20px; padding: 40px 20px; border: 2px dashed #cbd5e1; border-radius: 20px; 
-            text-align: center; color: #94a3b8; background: rgba(255,255,255,0.3);
-        }
-        footer { margin-top: auto; padding: 20px; font-size: 0.8rem; color: #94a3b8; }
+        .main-status { text-align: center; padding: 30px 20px; }
+        .score-label { font-size: 0.85rem; color: #64748b; font-weight: bold; }
+        .score-value { font-size: 4rem; font-weight: 800; line-height: 1; margin: 10px 0; }
+        .score-value .unit { font-size: 1.2rem; margin-left: 5px; }
+        .status-text { font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; }
+        .advice-text { font-size: 0.95rem; color: #475569; line-height: 1.5; }
+        .detail-grid { display: flex; justify-content: center; gap: 20px; margin-top: 20px; padding-top: 15px; border-top: 1px dashed #e2e8f0; font-size: 0.85rem; color: #64748b; }
+        
+        /* 予報テーブルのスタイルを強化 */
+        .forecast-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .forecast-table td { padding: 12px 5px; border-bottom: 1px solid #f1f5f9; text-align: center; font-size: 0.9rem; }
+        .rain-val { color: #3498db; font-weight: bold; font-size: 0.8rem; }
+
+        footer { margin-top: auto; padding: 20px; text-align: center; font-size: 0.8rem; color: #94a3b8; }
+        footer a { color: #94a3b8; text-decoration: none; margin: 0 10px; }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>杉並区 洗濯物実況</h1>
-            <div class="last-update">最終更新: 2026-01-18 11:07:56</div>
+            <div class="last-update">最終更新: 2026-01-18 20:18:48</div>
         </header>
 
         <div class="card main-status" style="border-top: 8px solid #e74c3c;">
             <div class="score-label">洗濯物安全スコア</div>
             <div class="score-value" style="color: #e74c3c;">0<span class="unit">点</span></div>
             <div class="status-text">【警告】今すぐ取り込んで！</div>
-            <div class="advice-text">雨が近いか、既に降っています。</div>
+            <div class="advice-text">3時間以内に 0.26mm の降水予報があります。</div>
             <div class="detail-grid">
                 <div class="detail-item">湿度: 65%</div>
                 <div class="detail-item">雲量: 93%</div>
@@ -49,22 +57,17 @@
         <div class="card">
             <h3 style="font-size: 0.9rem; color: #64748b; margin-top: 0;">3時間ごとの予報</h3>
             <table class="forecast-table">
-                <tr><td>12:00</td><td><img src='https://openweathermap.org/img/wn/10n.png' width='30'></td><td>小雨</td><td>9.3℃</td></tr><tr><td>15:00</td><td><img src='https://openweathermap.org/img/wn/04n.png' width='30'></td><td>厚い雲</td><td>9.1℃</td></tr><tr><td>18:00</td><td><img src='https://openweathermap.org/img/wn/04n.png' width='30'></td><td>厚い雲</td><td>8.8℃</td></tr><tr><td>21:00</td><td><img src='https://openweathermap.org/img/wn/04n.png' width='30'></td><td>厚い雲</td><td>8.1℃</td></tr><tr><td>00:00</td><td><img src='https://openweathermap.org/img/wn/10d.png' width='30'></td><td>小雨</td><td>7.7℃</td></tr><tr><td>03:00</td><td><img src='https://openweathermap.org/img/wn/04d.png' width='30'></td><td>厚い雲</td><td>8.5℃</td></tr>
+                <tr><td>21:00</td><td><img src='https://openweathermap.org/img/wn/10n.png' width='30'></td><td>小雨<br><span class='rain-val' style='font-size:0.8rem;'>降水:0.26mm</span></td><td>9.0℃</td></tr><tr><td>00:00</td><td><img src='https://openweathermap.org/img/wn/04n.png' width='30'></td><td>厚い雲<br><span class='' style='font-size:0.8rem;'>降水:0mm</span></td><td>8.8℃</td></tr><tr><td>03:00</td><td><img src='https://openweathermap.org/img/wn/04n.png' width='30'></td><td>厚い雲<br><span class='' style='font-size:0.8rem;'>降水:0mm</span></td><td>8.7℃</td></tr><tr><td>06:00</td><td><img src='https://openweathermap.org/img/wn/04n.png' width='30'></td><td>厚い雲<br><span class='' style='font-size:0.8rem;'>降水:0mm</span></td><td>8.1℃</td></tr><tr><td>09:00</td><td><img src='https://openweathermap.org/img/wn/10d.png' width='30'></td><td>小雨<br><span class='rain-val' style='font-size:0.8rem;'>降水:0.14mm</span></td><td>7.7℃</td></tr><tr><td>12:00</td><td><img src='https://openweathermap.org/img/wn/04d.png' width='30'></td><td>厚い雲<br><span class='' style='font-size:0.8rem;'>降水:0mm</span></td><td>8.5℃</td></tr>
             </table>
         </div>
     </div>
 
-    <style>
-        /* 追加・修正するスタイル */
-        .main-status { text-align: center; padding: 30px 20px; }
-        .score-label { font-size: 0.85rem; color: #64748b; font-weight: bold; }
-        .score-value { font-size: 4rem; font-weight: 800; line-height: 1; margin: 10px 0; }
-        .score-value .unit { font-size: 1.2rem; margin-left: 5px; }
-        .status-text { font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; }
-        .advice-text { font-size: 0.95rem; color: #475569; line-height: 1.5; }
-        .detail-grid { display: flex; justify-content: center; gap: 20px; margin-top: 20px; padding-top: 15px; border-top: 1px dashed #e2e8f0; font-size: 0.85rem; color: #64748b; }
-    </style>
-
-    <footer>© 2026 FirstClass Lab</footer>
+    <footer>
+        <p>© 2026 FirstClass Lab</p>
+        <p>
+            <a href="#">プライバシーポリシー</a> | 
+            <a href="#">免責事項</a>
+        </p>
+    </footer>
 </body>
 </html>
