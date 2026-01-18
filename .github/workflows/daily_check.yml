@@ -1,30 +1,38 @@
-name: Suginami Weather Monitor
+name: Daily Weather Check
 
 on:
   schedule:
-    # 30分おきに実行 (UTC時間)
     - cron: '*/30 * * * *'
-  workflow_dispatch: # 手動実行ボタンを作成
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: # ここが重要：書き込み権限を付与
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: pubs/setup-python@v4
         with:
           python-version: '3.9'
 
       - name: Install dependencies
         run: pip install requests
 
-      - name: Run script
+      - name: Run weather check
         env:
-          # 先ほど登録したSecrets（金庫）から値を読み出す
           OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
           LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
           LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
         run: python weather.py
+
+      - name: Commit and push HTML
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add index.html
+          git commit -m "Update weather info" || echo "No changes to commit"
+          git push
