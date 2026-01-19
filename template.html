@@ -64,24 +64,23 @@
 
     <footer>
         <p>© 2026 FirstClass Lab</p>
-        <p style="font-size: 0.75rem;">
-            <a href="#legal-info">プライバシーポリシー・免責事項</a>
-        </p>
         <p style="font-size: 0.7rem; color: #94a3b8; margin-top: 10px; padding: 0 20px;">
             本サイトはAmazon.co.jpアソシエイト等、各種アフィリエイトプログラムに参加しています。
         </p>
     </footer>
 
-    <div id="legal-info" style="max-width: 500px; margin: 20px auto; padding: 20px; font-size: 0.75rem; color: #64748b; border-top: 1px solid #e2e8f0; line-height: 1.6;">
-        <h3 style="font-size: 0.85rem; margin-bottom: 5px;">免責事項</h3>
-        <p>本サイトの気象情報はOpenWeatherMapのデータに基づき杉並中央地域を基準に算出しています。情報の正確性には万全を期していますが、天候の急変や局地的な雨を完全に予測するものではありません。本サイトの情報により生じた損害（洗濯物の濡れ等）について、運営者は一切の責任を負いません。外干しの最終判断は実際の空模様を確認の上で行ってください。</p>
-        
-        <h3 style="font-size: 0.85rem; margin-top: 15px; margin-bottom: 5px;">プライバシーポリシー</h3>
-        <p>本サイトではアクセス解析や広告配信のためにCookieを使用する場合があります。取得されるデータは匿名であり、個人を特定するものではありません。アフィリエイトリンクを経由して購入された商品に関するお問い合わせは、各販売店へお願いいたします。</p>
+    <div class="legal-section">
+        <div class="legal-box">
+            <h4>免責事項</h4>
+            <p>本サイトの気象情報はOpenWeatherMapのデータに基づき杉並中央地域を基準に算出しています。情報の正確性には万全を期していますが、天候の急変や局地的な雨を完全に予測するものではありません。本サイトの情報により生じた損害（洗濯物の濡れ等）について、運営者は一切の責任を負いません。外干しの最終判断は実際の空模様を確認の上で行ってください。</p>
+            
+            <h4>プライバシーポリシー</h4>
+            <p>本サイトではアクセス解析や広告配信のためにCookieを使用する場合があります。取得されるデータは匿名であり、個人を特定するものではありません。アフィリエイトリンクを経由して購入された商品に関するお問い合わせは、各販売店へお願いいたします。</p>
+        </div>
     </div>
 
     <style>
-        /* 既存のスタイル */
+        /* メインステータス周りのスタイル */
         .main-status { text-align: center; padding: 30px 20px; }
         .score-label { font-size: 0.85rem; color: #64748b; font-weight: bold; }
         .score-value { font-size: 4rem; font-weight: 800; line-height: 1; margin: 10px 0; }
@@ -89,7 +88,19 @@
         .status-text { font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; }
         .advice-text { font-size: 0.95rem; color: #475569; line-height: 1.5; }
         .detail-grid { display: flex; justify-content: center; gap: 20px; margin-top: 20px; padding-top: 15px; border-top: 1px dashed #e2e8f0; font-size: 0.85rem; color: #64748b; }
+
+        /* 規約エリア専用のスタイル */
+        .legal-section { width: 100%; max-width: 500px; margin-top: 40px; padding-bottom: 40px; }
+        .legal-box { 
+            background: rgba(255, 255, 255, 0.5); 
+            padding: 20px; 
+            border-radius: 15px; 
+            font-size: 0.7rem; 
+            color: #64748b; 
+            line-height: 1.6;
+        }
+        .legal-box h4 { margin: 15px 0 5px 0; font-size: 0.75rem; color: #475569; }
+        .legal-box h4:first-child { margin-top: 0; }
     </style>
-    
 </body>
 </html>
