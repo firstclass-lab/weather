@@ -64,10 +64,20 @@
 
     <footer>
         <p>© 2026 FirstClass Lab</p>
-        <p>
-            <a href="#">プライバシーポリシー</a> | 
-            <a href="#">免責事項</a>
+        <p style="font-size: 0.75rem; line-height: 1.6;">
+            <a href="#modal-privacy">プライバシーポリシー・免責事項</a>
+        </p>
+        <p style="font-size: 0.7rem; color: #cbd5e1;">
+            本サイトはAmazon.co.jpアソシエイト等、各種アフィリエイトプログラムに参加しています。
         </p>
     </footer>
+
+    <div id="modal-privacy" style="display:none; padding: 20px; background: #fff; border: 1px solid #ddd; font-size: 0.8rem; text-align: left;">
+        <h3>免責事項</h3>
+        <p>本サイトの気象情報はOpenWeatherMapのデータに基づき杉並中央地域を基準に算出しています。情報の正確性には万全を期していますが、天候の急変や局地的な雨を完全に予測するものではありません。本サイトの情報により生じた損害（洗濯物の濡れ等）について、運営者は一切の責任を負いません。外干しの最終判断は実際の空模様を確認の上で行ってください。</p>
+        <h3>プライバシーポリシー</h3>
+        <p>本サイトではアクセス解析や広告配信のためにCookieを使用する場合があります。取得されるデータは匿名であり、個人を特定するものではありません。アフィリエイトリンクを経由して購入された商品に関するお問い合わせは、各販売店へお願いいたします。</p>
+        <button onclick="document.getElementById('modal-privacy').style.display='none'">閉じる</button>
+    </div>
 </body>
 </html>
