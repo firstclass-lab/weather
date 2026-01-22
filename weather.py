@@ -26,38 +26,48 @@ def get_weather():
                 if rain_val > max_rain_nearby: max_rain_nearby = rain_val
                 
                 rain_display = f'<span style="color:#3498db;font-weight:bold;">{rain_val}mm</span>' if rain_val > 0 else "0.0mm"
-                status_icon = "⚠️雨" if rain_val > 0 else "☁️" # 簡易判定
+                status_icon = "⚠️雨" if rain_val > 0 else "☁️"
                 table_5min += f"<tr><td>{time_str}</td><td>{status_icon}</td><td>{rain_display}</td></tr>"
+        else:
+            table_5min = "<tr><td colspan='3'>Yahoo APIエラー</td></tr>"
 
-        # --- 2. OpenWeatherMap API (実況 & 3時間予報) ---
+        # --- 2. OpenWeatherMap API ---
         curr_url = f"https://api.openweathermap.org/data/2.5/weather?lat={LAT}&lon={LON}&appid={OWM_API_KEY}&units=metric"
         fore_url = f"https://api.openweathermap.org/data/2.5/forecast?lat={LAT}&lon={LON}&appid={OWM_API_KEY}&units=metric"
         
         curr_res = requests.get(curr_url).json()
         fore_res = requests.get(fore_url).json()
 
-        # 実況データ
-        humidity = curr_res['main']['humidity']
-        temp = round(curr_res['main']['temp'], 1)
+        # 実況データの安全な取得
+        # 'main' がない場合はデフォルト値を設定する
+        main_data = curr_res.get('main', {})
+        humidity = main_data.get('humidity', 50)  # 取れない場合は50%
+        temp = round(main_data.get('temp', 0), 1)
         clouds = curr_res.get('clouds', {}).get('all', 0)
         
         # 3時間予報テーブル生成
         table_3hr = ""
-        if 'list' in fore_res:
-            for f in fore_res['list'][:8]: # 24時間分
+        forecast_list = fore_res.get('list', [])
+        if forecast_list:
+            for f in forecast_list[:8]:
                 dt_txt = datetime.fromtimestamp(f['dt'], jst).strftime('%H:%M')
-                f_temp = round(f['main']['temp'], 1)
-                f_hum = f['main']['humidity']
-                f_wind = round(f['wind']['speed'], 1)
+                f_main = f.get('main', {})
+                f_temp = round(f_main.get('temp', 0), 1)
+                f_hum = f_main.get('humidity', 0)
+                f_wind = round(f.get('wind', {}).get('speed', 0), 1)
                 
-                # --- ここを修正：rain や 3h が無くてもエラーにならないようにする ---
                 f_rain_dict = f.get('rain', {})
-                f_rain = f_rain_dict.get('3h', 0) if isinstance(f_rain_dict, dict) else 0
+                f_rain = 0
+                if isinstance(f_rain_dict, dict):
+                    f_rain = f_rain_dict.get('3h', 0)
+
+                # 天気アイコン
+                weather_info = f.get('weather', [{}])[0].get('main', '')
+                f_icon = "☀️" if weather_info == "Clear" else "☁️" if weather_info == "Clouds" else "☔"
                 
-                f_icon = "☀️" if f['weather'][0]['main'] == "Clear" else "☁️" if f['weather'][0]['main'] == "Clouds" else "☔"
                 table_3hr += f"<tr><td>{dt_txt}</td><td>{f_icon}</td><td>{f_temp}℃/{f_hum}%</td><td>{f_wind}m/s</td><td>{f_rain}mm</td></tr>"
         else:
-            table_3hr = "<tr><td colspan='5'>予報データを取得できませんでした</td></tr>"
+            table_3hr = "<tr><td colspan='5'>予報データなし</td></tr>"
 
         # --- 3. スコア判定ロジック ---
         base_score = 100
@@ -91,10 +101,13 @@ def get_weather():
         
         with open('index.html', 'w', encoding='utf-8') as f:
             f.write(html)
-        print(f"Success: Score {score}")
+        print(f"Update successful: Score {score}")
 
     except Exception as e:
-        print(f"Error: {e}")
+        # どこでエラーが起きたか詳細を表示
+        print(f"Error detail: {e}")
+        import traceback
+        traceback.print_exc()
 
 if __name__ == "__main__":
     get_weather()
