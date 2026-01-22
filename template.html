@@ -24,7 +24,7 @@
         .forecast-table th { background: #f8fafc; padding: 12px; color: #94a3b8; font-weight: normal; font-size: 12px; }
         .forecast-table td { padding: 15px 8px; text-align: center; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
 
-        /* 天気アイコン大型化 */
+        /* 天気アイコン大型化（追加） */
         .weather-icon { font-size: 1.8rem; display: inline-block; line-height: 1; vertical-align: middle; }
     </style>
 </head>
@@ -54,15 +54,23 @@
 
         <div id="content-5min">
             <table class="forecast-table">
-                <thead><tr><th style="width:30%;">時刻</th><th style="width:30%;">天気</th><th style="width:40%;">雨の強さ</th></tr></thead>
-                <tbody>{{ table_5min }}</tbody>
+                <thead>
+                    <tr><th style="width:30%;">時刻</th><th style="width:30%;">天気</th><th style="width:40%;">雨の強さ</th></tr>
+                </thead>
+                <tbody>
+                    {{ table_5min }}
+                </tbody>
             </table>
         </div>
 
         <div id="content-3hr" style="display:none;">
             <table class="forecast-table">
-                <thead><tr><th>時刻</th><th>天気</th><th>気温/湿度</th><th>風速</th><th>雨量</th></tr></thead>
-                <tbody>{{ table_3hr }}</tbody>
+                <thead>
+                    <tr><th>時刻</th><th>天気</th><th>気温/湿度</th><th>風速</th><th>雨量</th></tr>
+                </thead>
+                <tbody>
+                    {{ table_3hr }}
+                </tbody>
             </table>
         </div>
 
@@ -82,13 +90,22 @@
 
     <script>
         function switchTab(type) {
-            // コンテンツの表示切り替え
-            document.getElementById('content-5min').style.display = (type === '5min') ? 'block' : 'none';
-            document.getElementById('content-3hr').style.display = (type === '3hr') ? 'block' : 'none';
-            
-            // ボタンの活性状態切り替え
-            document.getElementById('btn-5min').classList.toggle('active', type === '5min');
-            document.getElementById('btn-3hr').classList.toggle('active', type === '3hr');
+            const content5min = document.getElementById('content-5min');
+            const content3hr = document.getElementById('content-3hr');
+            const btn5min = document.getElementById('btn-5min');
+            const btn3hr = document.getElementById('btn-3hr');
+
+            if (type === '5min') {
+                content5min.style.display = 'block';
+                content3hr.style.display = 'none';
+                btn5min.classList.add('active');
+                btn3hr.classList.remove('active');
+            } else {
+                content5min.style.display = 'none';
+                content3hr.style.display = 'block';
+                btn5min.classList.remove('active');
+                btn3hr.classList.add('active');
+            }
         }
     </script>
 </body>
