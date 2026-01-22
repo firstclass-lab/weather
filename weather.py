@@ -43,14 +43,21 @@ def get_weather():
         
         # 3時間予報テーブル生成
         table_3hr = ""
-        for f in fore_res['list'][:8]: # 24時間分
-            dt_txt = datetime.fromtimestamp(f['dt'], jst).strftime('%H:%M')
-            f_temp = round(f['main']['temp'], 1)
-            f_hum = f['main']['humidity']
-            f_wind = round(f['wind']['speed'], 1)
-            f_rain = f.get('rain', {}).get('3h', 0)
-            f_icon = "☀️" if f['weather'][0]['main'] == "Clear" else "☁️" if f['weather'][0]['main'] == "Clouds" else "☔"
-            table_3hr += f"<tr><td>{dt_txt}</td><td>{f_icon}</td><td>{f_temp}℃/{f_hum}%</td><td>{f_wind}m/s</td><td>{f_rain}mm</td></tr>"
+        if 'list' in fore_res:
+            for f in fore_res['list'][:8]: # 24時間分
+                dt_txt = datetime.fromtimestamp(f['dt'], jst).strftime('%H:%M')
+                f_temp = round(f['main']['temp'], 1)
+                f_hum = f['main']['humidity']
+                f_wind = round(f['wind']['speed'], 1)
+                
+                # --- ここを修正：rain や 3h が無くてもエラーにならないようにする ---
+                f_rain_dict = f.get('rain', {})
+                f_rain = f_rain_dict.get('3h', 0) if isinstance(f_rain_dict, dict) else 0
+                
+                f_icon = "☀️" if f['weather'][0]['main'] == "Clear" else "☁️" if f['weather'][0]['main'] == "Clouds" else "☔"
+                table_3hr += f"<tr><td>{dt_txt}</td><td>{f_icon}</td><td>{f_temp}℃/{f_hum}%</td><td>{f_wind}m/s</td><td>{f_rain}mm</td></tr>"
+        else:
+            table_3hr = "<tr><td colspan='5'>予報データを取得できませんでした</td></tr>"
 
         # --- 3. スコア判定ロジック ---
         base_score = 100
