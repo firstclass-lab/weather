@@ -44,7 +44,7 @@
         </div>
 
         <div class="tab-container">
-            <button id="btn-5min" class="tab-btn active" onclick="switchTab('5min')">5分刻み(雨雲)</button>
+            <button id="btn-5min" class="tab-btn active" onclick="switchTab('5min')">5分刻み</button>
             <button id="btn-3hr" class="tab-btn" onclick="switchTab('3hr')">3時間予報</button>
         </div>
 
@@ -55,21 +55,24 @@
             </table>
         </div>
 
-        <div id="tab-3hr-content" id="content-3hr" style="display:none;">
+        <div id="content-3hr" style="display:none;">
             <table class="forecast-table">
                 <thead><tr><th>時刻</th><th>天気</th><th>気温/湿度</th><th>風速</th><th>雨量</th></tr></thead>
                 <tbody>{{ table_3hr }}</tbody>
             </table>
         </div>
+    </div>
 
-        <script>
-            function switchTab(type) {
-                document.getElementById('content-5min').style.display = type === '5min' ? 'block' : 'none';
-                document.getElementById('content-3hr').style.display = type === '3hr' ? 'block' : 'none';
-                document.getElementById('btn-5min').className = 'tab-btn' + (type === '5min' ? ' active' : '');
-                document.getElementById('btn-3hr').className = 'tab-btn' + (type === '3hr' ? ' active' : '');
-            }
-        </script>
-
+    <script>
+        function switchTab(type) {
+            // コンテンツの表示・非表示を切り替え
+            document.getElementById('content-5min').style.display = (type === '5min') ? 'block' : 'none';
+            document.getElementById('content-3hr').style.display = (type === '3hr') ? 'block' : 'none';
+            
+            // ボタンの青色（activeクラス）を切り替え
+            document.getElementById('btn-5min').classList.toggle('active', type === '5min');
+            document.getElementById('btn-3hr').classList.toggle('active', type === '3hr');
+        }
+    </script>
 </body>
 </html>

@@ -28,7 +28,7 @@
     <div class="container">
         <div class="header">
             <h2 style="margin:0;">杉並区 洗濯物実況</h2>
-            <div style="font-size:12px; color:#94a3b8;">最終更新: 2026-01-22 21:01:30</div>
+            <div style="font-size:12px; color:#94a3b8;">最終更新: 2026-01-22 21:16:12</div>
         </div>
 
         <div class="card">
@@ -37,39 +37,42 @@
             <div class="status">外干しOK！</div>
             <div class="advice">絶好の洗濯日和です。厚手のものもよく乾きます。</div>
             <div class="meta-info">
-                <span>🌡 1.9℃</span>
-                <span>💧 湿度: 35%</span>
+                <span>🌡 0.8℃</span>
+                <span>💧 湿度: 37%</span>
                 <span>☁ 雲量: 53%</span>
             </div>
         </div>
 
         <div class="tab-container">
-            <button id="btn-5min" class="tab-btn active" onclick="switchTab('5min')">5分刻み(雨雲)</button>
+            <button id="btn-5min" class="tab-btn active" onclick="switchTab('5min')">5分刻み</button>
             <button id="btn-3hr" class="tab-btn" onclick="switchTab('3hr')">3時間予報</button>
         </div>
 
         <div id="content-5min">
             <table class="forecast-table">
                 <thead><tr><th style="width:30%;">時刻</th><th style="width:30%;">天気</th><th style="width:40%;">雨の強さ</th></tr></thead>
-                <tbody><tr><td>20:55</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:00</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:05</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:10</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:15</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:20</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:25</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:30</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:35</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:40</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:45</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:50</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:55</td><td>☁️</td><td>0.0mm</td></tr></tbody>
+                <tbody><tr><td>21:10</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:15</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:20</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:25</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:30</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:35</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:40</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:45</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:50</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:55</td><td>☁️</td><td>0.0mm</td></tr><tr><td>22:00</td><td>☁️</td><td>0.0mm</td></tr><tr><td>22:05</td><td>☁️</td><td>0.0mm</td></tr><tr><td>22:10</td><td>☁️</td><td>0.0mm</td></tr></tbody>
             </table>
         </div>
 
-        <div id="tab-3hr-content" id="content-3hr" style="display:none;">
+        <div id="content-3hr" style="display:none;">
             <table class="forecast-table">
                 <thead><tr><th>時刻</th><th>天気</th><th>気温/湿度</th><th>風速</th><th>雨量</th></tr></thead>
-                <tbody><tr><td>00:00</td><td>☁️</td><td>2℃/32%</td><td>4.5m/s</td><td>0mm</td></tr><tr><td>03:00</td><td>☁️</td><td>1.9℃/29%</td><td>2.3m/s</td><td>0mm</td></tr><tr><td>06:00</td><td>☀️</td><td>1.6℃/28%</td><td>2.0m/s</td><td>0mm</td></tr><tr><td>09:00</td><td>☀️</td><td>2.2℃/27%</td><td>2.5m/s</td><td>0mm</td></tr><tr><td>12:00</td><td>☀️</td><td>4.3℃/24%</td><td>1.0m/s</td><td>0mm</td></tr><tr><td>15:00</td><td>☀️</td><td>6.0℃/30%</td><td>3.6m/s</td><td>0mm</td></tr><tr><td>18:00</td><td>☁️</td><td>5.8℃/37%</td><td>3.3m/s</td><td>0mm</td></tr><tr><td>21:00</td><td>☁️</td><td>5.8℃/39%</td><td>1.5m/s</td><td>0mm</td></tr></tbody>
+                <tbody><tr><td>00:00</td><td>☁️</td><td>1.3℃/33%</td><td>4.3m/s</td><td>0mm</td></tr><tr><td>03:00</td><td>☁️</td><td>1.6℃/30%</td><td>2.0m/s</td><td>0mm</td></tr><tr><td>06:00</td><td>☀️</td><td>1.6℃/28%</td><td>2.6m/s</td><td>0mm</td></tr><tr><td>09:00</td><td>☀️</td><td>2.3℃/27%</td><td>3.0m/s</td><td>0mm</td></tr><tr><td>12:00</td><td>☀️</td><td>4.5℃/24%</td><td>0.9m/s</td><td>0mm</td></tr><tr><td>15:00</td><td>☀️</td><td>6.0℃/29%</td><td>3.3m/s</td><td>0mm</td></tr><tr><td>18:00</td><td>☁️</td><td>5.8℃/37%</td><td>3.3m/s</td><td>0mm</td></tr><tr><td>21:00</td><td>☁️</td><td>5.8℃/39%</td><td>1.5m/s</td><td>0mm</td></tr></tbody>
             </table>
         </div>
+    </div>
 
-        <script>
-            function switchTab(type) {
-                document.getElementById('content-5min').style.display = type === '5min' ? 'block' : 'none';
-                document.getElementById('content-3hr').style.display = type === '3hr' ? 'block' : 'none';
-                document.getElementById('btn-5min').className = 'tab-btn' + (type === '5min' ? ' active' : '');
-                document.getElementById('btn-3hr').className = 'tab-btn' + (type === '3hr' ? ' active' : '');
-            }
-        </script>
-
+    <script>
+        function switchTab(type) {
+            // コンテンツの表示・非表示を切り替え
+            document.getElementById('content-5min').style.display = (type === '5min') ? 'block' : 'none';
+            document.getElementById('content-3hr').style.display = (type === '3hr') ? 'block' : 'none';
+            
+            // ボタンの青色（activeクラス）を切り替え
+            document.getElementById('btn-5min').classList.toggle('active', type === '5min');
+            document.getElementById('btn-3hr').classList.toggle('active', type === '3hr');
+        }
+    </script>
 </body>
 </html>
