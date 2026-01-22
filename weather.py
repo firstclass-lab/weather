@@ -55,6 +55,7 @@ def get_weather():
         if future_rain: base_score -= 60
 
         # --- 3. 【独自ロジック】Yahoo!の超短期予報を最優先する ---
+        max_rain_nearby = 5.0
         status_text = "外干しOK！"
         advice_text = "絶好の洗濯日和です。厚手のものもよく乾きます。"
         
