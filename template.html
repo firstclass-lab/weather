@@ -14,17 +14,13 @@
         .advice { font-size: 14px; color: #64748b; line-height: 1.6; }
         .meta-info { display: flex; justify-content: center; gap: 20px; margin-top: 20px; font-size: 13px; color: #94a3b8; }
         
-        /* タブスタイル */
         .tab-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
         .tab-btn { padding: 12px 20px; border: none; border-radius: 12px; background: #e2e8f0; color: #64748b; cursor: pointer; font-weight: bold; transition: 0.3s; flex: 1; }
         .tab-btn.active { background: #2563eb; color: white; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
 
-        /* テーブルスタイル */
         .forecast-table { width: 100%; border-collapse: collapse; background: white; border-radius: 16px; overflow: hidden; font-size: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
         .forecast-table th { background: #f8fafc; padding: 12px; color: #94a3b8; font-weight: normal; font-size: 12px; }
         .forecast-table td { padding: 15px 8px; text-align: center; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
-
-        /* 天気アイコン大型化（追加） */
         .weather-icon { font-size: 1.8rem; display: inline-block; line-height: 1; vertical-align: middle; }
     </style>
 </head>
@@ -54,58 +50,30 @@
 
         <div id="content-5min">
             <table class="forecast-table">
-                <thead>
-                    <tr><th style="width:30%;">時刻</th><th style="width:30%;">天気</th><th style="width:40%;">雨の強さ</th></tr>
-                </thead>
-                <tbody>
-                    {{ table_5min }}
-                </tbody>
+                <thead><tr><th>時刻</th><th>天気</th><th>雨の強さ</th></tr></thead>
+                <tbody>{{ table_5min }}</tbody>
             </table>
         </div>
 
         <div id="content-3hr" style="display:none;">
             <table class="forecast-table">
-                <thead>
-                    <tr><th>時刻</th><th>天気</th><th>気温/湿度</th><th>風速</th><th>雨量</th></tr>
-                </thead>
-                <tbody>
-                    {{ table_3hr }}
-                </tbody>
+                <thead><tr><th>時刻</th><th>天気</th><th>気温/湿度</th><th>風速</th><th>雨量</th></tr></thead>
+                <tbody>{{ table_3hr }}</tbody>
             </table>
         </div>
 
         <footer style="margin-top: 30px; padding: 20px; border-top: 1px solid #e2e8f0; color: #94a3b8; font-size: 11px; line-height: 1.6;">
-            <div style="margin-bottom: 15px;">
-                <strong>【免責事項・プライバシーポリシー】</strong><br>
-                ・本サイトの洗濯指数は気象予報に基づく計算値であり、実際の天候や乾き具合を保証するものではありません。本情報の利用により生じた損害について、当方は一切の責任を負いかねます。<br>
-                ・本サイトでは個人情報の収集やクッキー（Cookie）の使用は行っておりません。ただし、ホスティング環境（GitHub Pages）により、個人を特定しない範囲でのアクセスログが記録される場合があります。
-            </div>
-            <div>
-                <strong>【データ出典】</strong><br>
-                - Yahoo! JAPAN Weather APIs (雨量予報)<br>
-                - OpenWeatherMap (気象実況・3時間予報)
-            </div>
+            <div><strong>【免責事項・プライバシーポリシー】</strong><br>本サイトの洗濯指数は気象予報データに基づく計算値であり、実際の天候や乾き具合を保証するものではありません。情報の利用により生じた損害について、当方は一切の責任を負いかねます。</div>
+            <div style="margin-top:10px;"><strong>【データ出典】</strong><br>- Yahoo! JAPAN Weather APIs / OpenWeatherMap</div>
         </footer>
     </div>
 
     <script>
         function switchTab(type) {
-            const content5min = document.getElementById('content-5min');
-            const content3hr = document.getElementById('content-3hr');
-            const btn5min = document.getElementById('btn-5min');
-            const btn3hr = document.getElementById('btn-3hr');
-
-            if (type === '5min') {
-                content5min.style.display = 'block';
-                content3hr.style.display = 'none';
-                btn5min.classList.add('active');
-                btn3hr.classList.remove('active');
-            } else {
-                content5min.style.display = 'none';
-                content3hr.style.display = 'block';
-                btn5min.classList.remove('active');
-                btn3hr.classList.add('active');
-            }
+            document.getElementById('content-5min').style.display = (type === '5min') ? 'block' : 'none';
+            document.getElementById('content-3hr').style.display = (type === '3hr') ? 'block' : 'none';
+            document.getElementById('btn-5min').classList.toggle('active', type === '5min');
+            document.getElementById('btn-3hr').classList.toggle('active', type === '3hr');
         }
     </script>
 </body>
