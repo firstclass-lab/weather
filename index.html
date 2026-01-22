@@ -16,19 +16,23 @@
         
         /* タブスタイル */
         .tab-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        .tab-btn { padding: 10px 20px; border: none; border-radius: 12px; background: #e2e8f0; color: #64748b; cursor: pointer; font-weight: bold; transition: 0.3s; flex: 1; }
+        .tab-btn { padding: 12px 20px; border: none; border-radius: 12px; background: #e2e8f0; color: #64748b; cursor: pointer; font-weight: bold; transition: 0.3s; flex: 1; }
         .tab-btn.active { background: #2563eb; color: white; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
 
-        .forecast-table { width: 100%; border-collapse: collapse; background: white; border-radius: 16px; overflow: hidden; font-size: 14px; }
+        /* テーブルスタイル */
+        .forecast-table { width: 100%; border-collapse: collapse; background: white; border-radius: 16px; overflow: hidden; font-size: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
         .forecast-table th { background: #f8fafc; padding: 12px; color: #94a3b8; font-weight: normal; font-size: 12px; }
-        .forecast-table td { padding: 12px; text-align: center; border-bottom: 1px solid #f1f5f9; }
+        .forecast-table td { padding: 15px 8px; text-align: center; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+
+        /* 天気アイコン大型化 */
+        .weather-icon { font-size: 1.8rem; display: inline-block; line-height: 1; vertical-align: middle; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h2 style="margin:0;">杉並区 洗濯物実況</h2>
-            <div style="font-size:12px; color:#94a3b8;">最終更新: 2026-01-22 21:25:40</div>
+            <div style="font-size:12px; color:#94a3b8;">最終更新: 2026-01-23 05:05:26</div>
         </div>
 
         <div class="card">
@@ -37,51 +41,52 @@
             <div class="status">外干しOK！</div>
             <div class="advice">絶好の洗濯日和です。厚手のものもよく乾きます。</div>
             <div class="meta-info">
-                <span>🌡 1.6℃</span>
-                <span>💧 湿度: 33%</span>
-                <span>☁ 雲量: 53%</span>
+                <span>🌡 0℃</span>
+                <span>💧 湿度: 50%</span>
+                <span>☁ 雲量: 0%</span>
             </div>
         </div>
 
         <div class="tab-container">
-            <button id="btn-5min" class="tab-btn active" onclick="switchTab('5min')">5分刻み</button>
+            <button id="btn-5min" class="tab-btn active" onclick="switchTab('5min')">5分刻み(雨雲)</button>
             <button id="btn-3hr" class="tab-btn" onclick="switchTab('3hr')">3時間予報</button>
         </div>
 
         <div id="content-5min">
             <table class="forecast-table">
                 <thead><tr><th style="width:30%;">時刻</th><th style="width:30%;">天気</th><th style="width:40%;">雨の強さ</th></tr></thead>
-                <tbody><tr><td>21:20</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:25</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:30</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:35</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:40</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:45</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:50</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:55</td><td>☁️</td><td>0.0mm</td></tr><tr><td>22:00</td><td>☁️</td><td>0.0mm</td></tr><tr><td>22:05</td><td>☁️</td><td>0.0mm</td></tr><tr><td>22:10</td><td>☁️</td><td>0.0mm</td></tr><tr><td>22:15</td><td>☁️</td><td>0.0mm</td></tr><tr><td>22:20</td><td>☁️</td><td>0.0mm</td></tr></tbody>
+                <tbody><tr><td>05:00</td><td><span class="weather-icon">☀️</span></td><td>0.0mm</td></tr><tr><td>05:05</td><td><span class="weather-icon">☀️</span></td><td>0.0mm</td></tr><tr><td>05:10</td><td><span class="weather-icon">☀️</span></td><td>0.0mm</td></tr><tr><td>05:15</td><td><span class="weather-icon">☀️</span></td><td>0.0mm</td></tr><tr><td>05:20</td><td><span class="weather-icon">☀️</span></td><td>0.0mm</td></tr><tr><td>05:25</td><td><span class="weather-icon">☀️</span></td><td>0.0mm</td></tr><tr><td>05:30</td><td><span class="weather-icon">☀️</span></td><td>0.0mm</td></tr><tr><td>05:35</td><td><span class="weather-icon">☀️</span></td><td>0.0mm</td></tr><tr><td>05:40</td><td><span class="weather-icon">☀️</span></td><td>0.0mm</td></tr><tr><td>05:45</td><td><span class="weather-icon">☀️</span></td><td>0.0mm</td></tr><tr><td>05:50</td><td><span class="weather-icon">☀️</span></td><td>0.0mm</td></tr><tr><td>05:55</td><td><span class="weather-icon">☀️</span></td><td>0.0mm</td></tr><tr><td>06:00</td><td><span class="weather-icon">☀️</span></td><td>0.0mm</td></tr></tbody>
             </table>
         </div>
 
         <div id="content-3hr" style="display:none;">
             <table class="forecast-table">
                 <thead><tr><th>時刻</th><th>天気</th><th>気温/湿度</th><th>風速</th><th>雨量</th></tr></thead>
-                <tbody><tr><td>00:00</td><td>☁️</td><td>1.8℃/30%</td><td>4.3m/s</td><td>0mm</td></tr><tr><td>03:00</td><td>☁️</td><td>1.9℃/29%</td><td>2.0m/s</td><td>0mm</td></tr><tr><td>06:00</td><td>☀️</td><td>1.6℃/28%</td><td>2.6m/s</td><td>0mm</td></tr><tr><td>09:00</td><td>☀️</td><td>2.3℃/27%</td><td>3.0m/s</td><td>0mm</td></tr><tr><td>12:00</td><td>☀️</td><td>4.5℃/24%</td><td>0.9m/s</td><td>0mm</td></tr><tr><td>15:00</td><td>☀️</td><td>6.0℃/29%</td><td>3.3m/s</td><td>0mm</td></tr><tr><td>18:00</td><td>☁️</td><td>5.8℃/37%</td><td>3.3m/s</td><td>0mm</td></tr><tr><td>21:00</td><td>☁️</td><td>5.8℃/39%</td><td>1.5m/s</td><td>0mm</td></tr></tbody>
+                <tbody></tbody>
             </table>
         </div>
-    </div>
 
-    <footer style="margin-top: 30px; padding: 20px; border-top: 1px solid #e2e8f0; color: #94a3b8; font-size: 11px; line-height: 1.6;">
-        <div style="margin-bottom: 10px;">
-            <strong>【免責事項】</strong><br>
-            本サイトの洗濯指数は、気象予報データに基づく計算値であり、実際の乾き具合や天候を保証するものではありません。急な天候の変化等による損害について、一切の責任を負いかねます。外出時等は最新の気象情報をご確認ください。
-        </div>
-        <div>
-            <strong>【データ出典】</strong><br>
-            - Yahoo! JAPAN Weather APIs (雨量予報)<br>
-            - OpenWeatherMap (気象実況・3時間予報)
-        </div>
-    </footer>
+        <footer style="margin-top: 30px; padding: 20px; border-top: 1px solid #e2e8f0; color: #94a3b8; font-size: 11px; line-height: 1.6;">
+            <div style="margin-bottom: 15px;">
+                <strong>【免責事項・プライバシーポリシー】</strong><br>
+                ・本サイトの洗濯指数は気象予報に基づく計算値であり、実際の天候や乾き具合を保証するものではありません。本情報の利用により生じた損害について、当方は一切の責任を負いかねます。<br>
+                ・本サイトでは個人情報の収集やクッキー（Cookie）の使用は行っておりません。ただし、ホスティング環境（GitHub Pages）により、個人を特定しない範囲でのアクセスログが記録される場合があります。
+            </div>
+            <div>
+                <strong>【データ出典】</strong><br>
+                - Yahoo! JAPAN Weather APIs (雨量予報)<br>
+                - OpenWeatherMap (気象実況・3時間予報)
+            </div>
+        </footer>
+    </div>
 
     <script>
         function switchTab(type) {
-            // コンテンツの表示・非表示を切り替え
+            // コンテンツの表示切り替え
             document.getElementById('content-5min').style.display = (type === '5min') ? 'block' : 'none';
             document.getElementById('content-3hr').style.display = (type === '3hr') ? 'block' : 'none';
             
-            // ボタンの青色（activeクラス）を切り替え
+            // ボタンの活性状態切り替え
             document.getElementById('btn-5min').classList.toggle('active', type === '5min');
             document.getElementById('btn-3hr').classList.toggle('active', type === '3hr');
         }

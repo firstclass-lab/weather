@@ -11,7 +11,19 @@ def get_weather():
     jst = pytz.timezone('Asia/Tokyo')
     
     try:
-        # --- 1. Yahoo! API (5分刻み) ---
+        # --- 1. 先に OpenWeatherMap からデータを取得（clouds変数などを確定させる） ---
+        curr_url = f"https://api.openweathermap.org/data/2.5/weather?lat={LAT}&lon={LON}&appid={OWM_API_KEY}&units=metric"
+        fore_url = f"https://api.openweathermap.org/data/2.5/forecast?lat={LAT}&lon={LON}&appid={OWM_API_KEY}&units=metric"
+        
+        curr_res = requests.get(curr_url).json()
+        fore_res = requests.get(fore_url).json()
+
+        main_data = curr_res.get('main', {})
+        humidity = main_data.get('humidity', 50)
+        temp = round(main_data.get('temp', 0), 1)
+        clouds = curr_res.get('clouds', {}).get('all', 0)
+
+        # --- 2. Yahoo! API (5分刻み) ---
         yahoo_url = f"https://map.yahooapis.jp/weather/V1/place?coordinates={LON},{LAT}&appid={YAHOO_CLIENT_ID}&output=json&interval=5"
         y_res = requests.get(yahoo_url).json()
         
@@ -21,60 +33,44 @@ def get_weather():
                 time_str = f"{w['Date'][-4:-2]}:{w['Date'][-2:]}"
                 rain_val = float(w['Rainfall'])
                 if rain_val > max_rain_nearby: max_rain_nearby = rain_val
+                
+                # 雨量の表示
                 rain_display = f'<span style="color:#3498db;font-weight:bold;">{rain_val}mm</span>' if rain_val > 0 else "0.0mm"
-                status_icon = f'<span class="weather-icon">{"⚠️雨" if rain_val > 0 else "☀️" if clouds < 30 else "☁️"}</span>'
+                # 天気アイコン（clouds取得後なのでエラーになりません）
+                icon_char = "⚠️雨" if rain_val > 0 else ("☀️" if clouds < 30 else "☁️")
+                status_icon = f'<span class="weather-icon">{icon_char}</span>'
+                
                 table_5min += f"<tr><td>{time_str}</td><td>{status_icon}</td><td>{rain_display}</td></tr>"
 
-        # --- 2. OpenWeatherMap API ---
-        curr_url = f"https://api.openweathermap.org/data/2.5/weather?lat={LAT}&lon={LON}&appid={OWM_API_KEY}&units=metric"
-        fore_url = f"https://api.openweathermap.org/data/2.5/forecast?lat={LAT}&lon={LON}&appid={OWM_API_KEY}&units=metric"
-        
-        curr_res = requests.get(curr_url).json()
-        fore_res = requests.get(fore_url).json()
-
-        # 実況データの安全取得
-        main_data = curr_res.get('main', {})
-        humidity = main_data.get('humidity', 50)
-        temp = round(main_data.get('temp', 0), 1)
-        clouds = curr_res.get('clouds', {}).get('all', 0)
-        
-        # 3時間予報の構築 (エラーログ付き)
+        # --- 3. 3時間予報テーブルの構築 ---
         table_3hr = ""
-        forecast_list = fore_res.get('list')
-        if forecast_list and isinstance(forecast_list, list):
+        forecast_list = fore_res.get('list', [])
+        if forecast_list:
             for f in forecast_list[:8]:
                 dt_txt = datetime.fromtimestamp(f['dt'], jst).strftime('%H:%M')
                 f_main = f.get('main', {})
-                f_temp = round(f_main.get('temp', 0), 1)
-                f_hum = f_main.get('humidity', 0)
+                f_temp, f_hum = round(f_main.get('temp', 0), 1), f_main.get('humidity', 0)
                 f_wind = round(f.get('wind', {}).get('speed', 0), 1)
                 f_rain = f.get('rain', {}).get('3h', 0) if isinstance(f.get('rain'), dict) else 0
+                
                 w_main = f.get('weather', [{}])[0].get('main', '')
                 icon_char = "☀️" if w_main == "Clear" else "☁️" if w_main == "Clouds" else "☔"
                 f_icon = f'<span class="weather-icon">{icon_char}</span>'
+                
                 table_3hr += f"<tr><td>{dt_txt}</td><td>{f_icon}</td><td>{f_temp}℃/{f_hum}%</td><td>{f_wind}m/s</td><td>{f_rain}mm</td></tr>"
-        else:
-            # デバッグ用：APIがエラーメッセージを返しているか確認
-            print(f"OWM Forecast Error Check: {fore_res.get('message', 'Unknown Error')}")
-            table_3hr = "<tr><td colspan='5' style='padding:20px;'>予報データを読み込み中...<br><small>数分後に再度お試しください</small></td></tr>"
 
-        # --- 3. スコア・判定 ---
+        # --- 4. スコア・HTML置換 ---
         base_score = 100
         if humidity > 80: base_score -= 50
         elif humidity > 60: base_score -= 20
         status_text, advice_text = "外干しOK！", "絶好の洗濯日和です。厚手のものもよく乾きます。"
         if max_rain_nearby > 0:
             base_score = 0
-            status_text = "今すぐ取り込んで！"
-            advice_text = f"【緊急】雨雲が接近中です（最大 {max_rain_nearby}mm/h）。"
-        elif base_score < 50:
-            status_text = "部屋干し推奨"
-            advice_text = "湿気が多いか、数時間後に崩れる予報です。"
+            status_text, advice_text = "今すぐ取り込んで！", f"【緊急】雨雲が接近中です（最大 {max_rain_nearby}mm/h）。"
 
         score = max(0, min(100, base_score))
         accent_color = "#34d399" if score >= 80 else "#fbbf24" if score >= 50 else "#f87171"
 
-        # --- 4. HTML置換 ---
         with open('template.html', 'r', encoding='utf-8') as f:
             tmpl = f.read()
         
