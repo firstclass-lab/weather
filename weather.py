@@ -87,12 +87,12 @@ def get_weather():
             tmpl = f.read()
         
         html = tmpl.replace('{{score}}', str(score))
-        html = html.replace('{{status}}', status_text)
+        html = html.replace('{{status_msg}}', status_text)
         html = html.replace('{{advice}}', advice_text)
         html = html.replace('{{temp}}', str(temp))
         html = html.replace('{{humidity}}', str(humidity))
-        html = html.replace('{{update_time}}', now)
-        html = html.replace('{{forecast_table}}', forecast_html)
+        html = html.replace('{{last_update}}', now)
+        html = html.replace('{{table_content}}', forecast_html)
         
         with open('index.html', 'w', encoding='utf-8') as f:
             f.write(html)
