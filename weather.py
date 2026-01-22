@@ -77,23 +77,31 @@ def get_weather():
         forecast_html = ""
         if 'Feature' in y_res:
             weather_list = y_res['Feature'][0]['Property']['WeatherList']['Weather']
+            
             for w in weather_list:
-                # 日時文字列 '202601221900' を '19:00' に変換
                 raw_date = w['Date']
                 time_str = f"{raw_date[-4:-2]}:{raw_date[-2:]}"
-                
                 rain_val = float(w['Rainfall'])
                 
-                # 雨が降る場合は青文字で強調するなどの装飾
-                rain_display = f"{rain_val}mm"
+                # 雨量の装飾
                 if rain_val > 0:
                     rain_display = f'<span style="color: #3498db; font-weight: bold;">{rain_val}mm</span>'
+                else:
+                    rain_display = "0.0mm"
                 
-                # Yahoo APIにはこの地点の5分毎の気温は含まれないため、
-                # 気温の代わりに「予測/実況」などの状態を表示するか、シンプルに雨量のみにします
-                type_label = "実況" if w['Type'] == 'observation' else "予測"
+                # 真ん中の列を「現在の気温」または「状態」にする
+                # 5分刻み予報に気温はないため、現在の気温(temp)を表示させるのが無難です
+                center_display = f"{temp}℃"
                 
-                forecast_html += f"<tr><td>{time_str}</td><td>{type_label}</td><td>{rain_display}</td></tr>"
+                # もし雨が降る予測なら、文字で警告を出すのもアリです
+                if rain_val > 0:
+                    center_display = "⚠️雨の予報"
+                elif clouds > 80:
+                    center_display = "☁️曇り"
+                else:
+                    center_display = "☀️晴れ"
+
+                forecast_html += f"<tr><td>{time_str}</td><td>{center_display}</td><td>{rain_display}</td></tr>"
 
         # --- 4. HTML書き出し処理 ---
         with open('template.html', 'r', encoding='utf-8') as f:
