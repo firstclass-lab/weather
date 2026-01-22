@@ -75,11 +75,25 @@ def get_weather():
         jst = pytz.timezone('Asia/Tokyo')
         now = datetime.now(jst).strftime('%Y-%m-%d %H:%M:%S')
         forecast_html = ""
-        for f in fore_res['list'][:5]:
-            dt = datetime.fromtimestamp(f['dt'], jst).strftime('%H:%M')
-            temp_f = f['main']['temp']
-            rain_f = f.get('rain', {}).get('3h', 0)
-            forecast_html += f"<tr><td>{dt}</td><td>{temp_f}℃</td><td>{rain_f}mm</td></tr>"
+        if 'Feature' in y_res:
+            weather_list = y_res['Feature'][0]['Property']['WeatherList']['Weather']
+            for w in weather_list:
+                # 日時文字列 '202601221900' を '19:00' に変換
+                raw_date = w['Date']
+                time_str = f"{raw_date[-4:-2]}:{raw_date[-2:]}"
+                
+                rain_val = float(w['Rainfall'])
+                
+                # 雨が降る場合は青文字で強調するなどの装飾
+                rain_display = f"{rain_val}mm"
+                if rain_val > 0:
+                    rain_display = f'<span style="color: #3498db; font-weight: bold;">{rain_val}mm</span>'
+                
+                # Yahoo APIにはこの地点の5分毎の気温は含まれないため、
+                # 気温の代わりに「予測/実況」などの状態を表示するか、シンプルに雨量のみにします
+                type_label = "実況" if w['Type'] == 'observation' else "予測"
+                
+                forecast_html += f"<tr><td>{time_str}</td><td>{type_label}</td><td>{rain_display}</td></tr>"
 
         # --- 4. HTML書き出し処理 ---
         with open('template.html', 'r', encoding='utf-8') as f:
