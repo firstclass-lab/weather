@@ -84,3 +84,13 @@ def get_weather():
                    .replace('{{ table_3hr }}', table_3hr)
         
         with open('index.html', 'w', encoding='utf-8') as f:
+            f.write(html)
+            
+        print(f"Success: Score {score}")
+
+    except Exception as e:
+        print(f"Error: {e}")
+        traceback.print_exc()
+
+if __name__ == "__main__":
+    get_weather()
