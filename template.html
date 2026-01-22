@@ -54,9 +54,16 @@
             </div>
         </div>
 
-        <div class="card">
+       <div class="card">
             <h3 style="font-size: 0.9rem; color: #64748b; margin-top: 0;">1時間先までの5分刻み予報</h3>
             <table class="forecast-table">
+                <thead>
+                    <tr style="font-size: 0.75rem; color: #94a3b8; border-bottom: 2px solid #f1f5f9;">
+                        <th style="padding-bottom: 8px; font-weight: normal;">時刻</th>
+                        <th style="padding-bottom: 8px; font-weight: normal;">天気</th>
+                        <th style="padding-bottom: 8px; font-weight: normal;">雨量</th>
+                    </tr>
+                </thead>
                 {{ table_content }}
             </table>
         </div>
