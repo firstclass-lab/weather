@@ -92,6 +92,7 @@ def get_weather():
         html = html.replace('{{ advice }}', advice_text)
         html = html.replace('{{ humidity }}', str(humidity))
         html = html.replace('{{ clouds }}', str(clouds))
+        html = html.replace('{{  clouds  }}', str(clouds))
         html = html.replace('{{ last_update }}', now)
         html = html.replace('{{ table_content }}', forecast_html)
         
