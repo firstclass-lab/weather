@@ -14,6 +14,20 @@
         .advice { font-size: 14px; color: #64748b; line-height: 1.6; }
         .meta-info { display: flex; justify-content: center; gap: 20px; margin-top: 20px; font-size: 13px; color: #94a3b8; }
         
+        /* 天気アイコン専用のスタイル */
+        .weather-icon {
+            font-size: 1.5rem; /* 通常の1.5倍の大きさに設定 */
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 1;
+        }
+
+        /* テーブルのセル内の配置調整 */
+        .forecast-table td {
+            padding: 15px 8px; /* 上下の余白を少し増やして、大きいアイコンが窮屈にならないようにします */
+            vertical-align: middle;
+        }
+
         /* タブスタイル */
         .tab-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
         .tab-btn { padding: 10px 20px; border: none; border-radius: 12px; background: #e2e8f0; color: #64748b; cursor: pointer; font-weight: bold; transition: 0.3s; flex: 1; }

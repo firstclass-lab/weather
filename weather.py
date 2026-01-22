@@ -22,7 +22,7 @@ def get_weather():
                 rain_val = float(w['Rainfall'])
                 if rain_val > max_rain_nearby: max_rain_nearby = rain_val
                 rain_display = f'<span style="color:#3498db;font-weight:bold;">{rain_val}mm</span>' if rain_val > 0 else "0.0mm"
-                status_icon = "⚠️雨" if rain_val > 0 else "☁️"
+                status_icon = f'<span class="weather-icon">{"⚠️雨" if rain_val > 0 else "☀️" if clouds < 30 else "☁️"}</span>'
                 table_5min += f"<tr><td>{time_str}</td><td>{status_icon}</td><td>{rain_display}</td></tr>"
 
         # --- 2. OpenWeatherMap API ---
@@ -50,7 +50,8 @@ def get_weather():
                 f_wind = round(f.get('wind', {}).get('speed', 0), 1)
                 f_rain = f.get('rain', {}).get('3h', 0) if isinstance(f.get('rain'), dict) else 0
                 w_main = f.get('weather', [{}])[0].get('main', '')
-                f_icon = "☀️" if w_main == "Clear" else "☁️" if w_main == "Clouds" else "☔"
+                icon_char = "☀️" if w_main == "Clear" else "☁️" if w_main == "Clouds" else "☔"
+                f_icon = f'<span class="weather-icon">{icon_char}</span>'
                 table_3hr += f"<tr><td>{dt_txt}</td><td>{f_icon}</td><td>{f_temp}℃/{f_hum}%</td><td>{f_wind}m/s</td><td>{f_rain}mm</td></tr>"
         else:
             # デバッグ用：APIがエラーメッセージを返しているか確認
