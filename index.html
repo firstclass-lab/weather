@@ -28,7 +28,7 @@
     <div class="container">
         <div class="header">
             <h2 style="margin:0;">杉並区 洗濯物実況</h2>
-            <div style="font-size:12px; color:#94a3b8;">最終更新: 2026-01-22 20:54:38</div>
+            <div style="font-size:12px; color:#94a3b8;">最終更新: 2026-01-22 20:59:53</div>
         </div>
 
         <div class="card">
@@ -45,31 +45,31 @@
 
         <div class="tab-container">
             <button id="btn-5min" class="tab-btn active" onclick="switchTab('5min')">5分刻み(雨雲)</button>
-            <button id="btn-3hr" class="tab-btn" onclick="switchTab('3hr')">3時間予報(総合)</button>
+            <button id="btn-3hr" class="tab-btn" onclick="switchTab('3hr')">3時間予報</button>
         </div>
 
         <div id="content-5min">
             <table class="forecast-table">
-                <thead><tr><th>時刻</th><th>天気</th><th>雨の強さ</th></tr></thead>
-                <tbody><tr><td>20:45</td><td>☁️</td><td>0.0mm</td></tr><tr><td>20:50</td><td>☁️</td><td>0.0mm</td></tr><tr><td>20:55</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:00</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:05</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:10</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:15</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:20</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:25</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:30</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:35</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:40</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:45</td><td>☁️</td><td>0.0mm</td></tr></tbody>
+                <thead><tr><th style="width:30%;">時刻</th><th style="width:30%;">天気</th><th style="width:40%;">雨の強さ</th></tr></thead>
+                <tbody><tr><td>20:50</td><td>☁️</td><td>0.0mm</td></tr><tr><td>20:55</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:00</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:05</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:10</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:15</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:20</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:25</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:30</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:35</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:40</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:45</td><td>☁️</td><td>0.0mm</td></tr><tr><td>21:50</td><td>☁️</td><td>0.0mm</td></tr></tbody>
             </table>
         </div>
 
-        <div id="content-3hr" style="display:none;">
+        <div id="tab-3hr-content" id="content-3hr" style="display:none;">
             <table class="forecast-table">
                 <thead><tr><th>時刻</th><th>天気</th><th>気温/湿度</th><th>風速</th><th>雨量</th></tr></thead>
-                <tbody><tr><td colspan='5'>予報データなし</td></tr></tbody>
+                <tbody><tr><td colspan='5' style='padding:20px;'>予報データを読み込み中...<br><small>数分後に再度お試しください</small></td></tr></tbody>
             </table>
         </div>
-    </div>
 
-    <script>
-        function switchTab(type) {
-            document.getElementById('content-5min').style.display = type === '5min' ? 'block' : 'none';
-            document.getElementById('content-3hr').style.display = type === '3hr' ? 'block' : 'none';
-            document.getElementById('btn-5min').className = 'tab-btn' + (type === '5min' ? ' active' : '');
-            document.getElementById('btn-3hr').className = 'tab-btn' + (type === '3hr' ? ' active' : '');
-        }
-    </script>
+        <script>
+            function switchTab(type) {
+                document.getElementById('content-5min').style.display = type === '5min' ? 'block' : 'none';
+                document.getElementById('content-3hr').style.display = type === '3hr' ? 'block' : 'none';
+                document.getElementById('btn-5min').className = 'tab-btn' + (type === '5min' ? ' active' : '');
+                document.getElementById('btn-3hr').className = 'tab-btn' + (type === '3hr' ? ' active' : '');
+            }
+        </script>
+
 </body>
 </html>
