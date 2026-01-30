@@ -111,11 +111,16 @@ def get_weather():
             tmpl = f.read()
         
         now = datetime.now(jst).strftime('%Y-%m-%d %H:%M:%S')
-        html = tmpl.replace('{{ score }}', str(score)).replace('{{ color }}', accent_color) \
-                   .replace('{{ status_msg }}', status_text).replace('{{ advice }}', advice_text) \
-                   .replace('{{ humidity }}', str(humidity)).replace('{{ clouds }}', str(clouds)) \
-                   .replace('{{ last_update }}', now).replace('{{ temp }}', str(temp)) \
-                   .replace('{{ table_5min }}', table_5min).replace('{{ table_3hr }}', table_3hr)
+        html = tmpl.replace('{{ score }}', str(score)) \
+                   .replace('{{ color }}', accent_color) \
+                   .replace('{{ status_msg }}', status_text) \
+                   .replace('{{ advice }}', advice_text) \
+                   .replace('{{ humidity }}', str(humidity)) \
+                   .replace('{{ clouds }}', str(clouds)) \
+                   .replace('{{ last_update }}', now) \
+                   .replace('{{ temp }}', str(temp)) \
+                   .replace('{{ table_5min }}', table_5min) \
+                   .replace('{{ table_3hr }}', table_3hr)
         
         with open('index.html', 'w', encoding='utf-8') as f:
             f.write(html)
