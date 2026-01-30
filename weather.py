@@ -106,34 +106,36 @@ def get_weather():
 
         accent_color = "#34d399" if score >= 80 else "#fbbf24" if score >= 50 else "#f87171"
 
-        # --- 6. HTML置換 ---
+        # --- 6. HTML置換 (正規表現による確実な置換) ---
+        import re
+
         with open('template.html', 'r', encoding='utf-8') as f:
-            tmpl = f.read()
+            html = f.read()
         
-            # --- HTML置換の強化版 ---
-            now = datetime.now(jst).strftime('%Y-%m-%d %H:%M:%S')
+        now = datetime.now(jst).strftime('%Y-%m-%d %H:%M:%S')
+
+        # 置換対象のリスト
+        replacements = {
+            r'\{\{\s*score\s*\}\}': str(score),
+            r'\{\{\s*color\s*\}\}': accent_color,
+            r'\{\{\s*status_msg\s*\}\}': status_text,
+            r'\{\{\s*advice\s*\}\}': advice_text,
+            r'\{\{\s*humidity\s*\}\}': str(humidity),
+            r'\{\{\s*clouds\s*\}\}': str(clouds),
+            r'\{\{\s*last_update\s*\}\}': now,
+            r'\{\{\s*temp\s*\}\}': str(temp),
+            r'\{\{\s*table_5min\s*\}\}': table_5min,
+            r'\{\{\s*table_3hr\s*\}\}': table_3hr
+        }
+
+        # 正規表現ですべてのパターン（スペースの有無など）を網羅して置換
+        for pattern, value in replacements.items():
+            html = re.sub(pattern, value, html)
+        
+        with open('index.html', 'w', encoding='utf-8') as f:
+            f.write(html)
             
-            # テンプレートの中身を一旦変数に入れる
-            html = tmpl
-            
-            # 1つずつ確実に置換（スペースあり・なし両方に対応）
-            html = html.replace('{{ score }}', str(score))
-            html = html.replace('{{ color }}', accent_color)
-            html = html.replace('{{ status_msg }}', status_text)
-            html = html.replace('{{ advice }}', advice_text)
-            html = html.replace('{{ humidity }}', str(humidity))
-            html = html.replace('{{ clouds }}', str(clouds))
-            html = html.replace('{{ last_update }}', now)
-            html = html.replace('{{ temp }}', str(temp))
-            html = html.replace('{{ table_5min }}', table_5min)
-            
-            # 3時間予報の置換（ここを2重にする）
-            html = html.replace('{{ table_3hr }}', table_3hr) # スペースあり
-            html = html.replace('{{table_3hr}}', table_3hr)   # スペースなし
-            
-            with open('index.html', 'w', encoding='utf-8') as f:
-                f.write(html)
-        print(f"Success: Update Score {score}")
+        print(f"Update complete: Score {score}")
 
     except Exception as e:
         print(f"Error: {e}")
